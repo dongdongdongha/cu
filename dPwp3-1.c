@@ -14,7 +14,7 @@ void main(void)
     
     while(1){
         nsw = PINE & 0xF0;
-        if(osw == 0b11110000 && nsw == 0b11100000){
+        if(osw == 0b11100000 && nsw == 0b11110000){
             led = (led << 1) | 1;
             if(led == 0xFF) led = 0xFE;                              
         
