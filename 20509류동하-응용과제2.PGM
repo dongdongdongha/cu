@@ -1,0 +1,38 @@
+B(4).1=0 : B(4).2=1 : WAIT 500
+B(4).2=0 : B(4).0=0
+
+SPD = 7000
+B(10).0=0
+MPTP P0
+STBY(B(0).2==1)&&(B(0).1==1)
+TAG A
+MPTP P1
+LOOP (GPNT(512).1 < (P1.1 + 200))
+	IF B(10).0==1
+		B(10).0=0
+		MINC <10, 0>	
+	ENDI
+	IF B(10).1==1
+		B(10).1=0
+		MINC <20, 0>	
+	ENDI
+ENDL
+MPTP P1
+GOTO A
+MEND
+
+SPGM PICK
+	B(4).1=1 : WAIT 500
+	B(4).1=0 : WAIT 500 : STBY (B(0).0==1)
+	B(4).0=1 : WAIT 500 : STBY (B(0).3==1)
+	B(4).2=1 : WAIT 500
+	B(4).2=0 : WAIT 500 : STBY (B(0).1==1)
+SEND
+
+SPGM PLACE
+	B(4).1=1 : WAIT 500
+	B(4).1=0 : WAIT 500 : STBY (B(0).0==1)
+	B(4).0=0 : WAIT 500 : STBY (B(0).2==1)
+	B(4).2=1 : WAIT 500
+	B(4).2=0 : WAIT 500 : STBY (B(0).1==1)
+SEND
